@@ -1,21 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
-import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "./authConfig";
-import Button from "react-bootstrap/Button";
-
-function handleLogin(instance) {
-  instance.loginRedirect(loginRequest).catch(e => {
-    console.error(e);
-});
-}
+import PageLayout from "./PageLayout";
+import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import ProfileContent from "./ProfileContent";
 
 function App() {
-  const { instance } = useMsal();
+
   return (
-    <div className="App">
-     <Button variant="secondary" className="ml-auto" onClick={() => handleLogin(instance)}>Sign in using Popup</Button>
-    </div>
+    <PageLayout>
+       <Route path="/profile" element={<AuthenticatedTemplate>
+        <ProfileContent />
+        
+      </AuthenticatedTemplate>} />
+      
+
+      <UnauthenticatedTemplate>
+        <h1>You are not signed in! Please sign in.</h1>
+      </UnauthenticatedTemplate>
+
+    </PageLayout>
   );
 }
 
